@@ -1,0 +1,36 @@
+.h1 {
+	margin: 0;
+
+	color: #3B434E;
+
+	font-size: 26px;
+	font-weight: 500;
+	font-style: normal;
+	line-height: normal;
+}
+
+.h2 {
+	margin-top: 50px;
+	margin-bottom: 25px;
+
+	color: #3B434E;
+    
+	font-size: 22px;
+	font-weight: 500;
+	font-style: normal;
+	line-height: normal;
+}
+
+.h3 {
+	margin: 0;
+
+	color: #3B434E;
+    
+	font-size: 20px;
+	font-weight: 600;
+	font-style: normal;
+	line-height: normal;
+}
+
+
+

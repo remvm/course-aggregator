@@ -1,0 +1,31 @@
+.advantage {
+	display: grid;
+	grid-template-columns: 50px 1fr;
+	gap: 10px 40px;
+
+	margin-bottom: 30px;
+}
+
+.title {
+	align-self: center;
+
+	font-weight: bold;
+}
+
+.vline {
+	position: relative;
+}
+  
+.vline::before {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+
+	width: 1px;
+
+	content: '';
+	transform: translateX(-50%);
+
+	background-color: var(--gray-light);
+}
