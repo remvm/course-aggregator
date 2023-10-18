@@ -7,12 +7,19 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { firstLevelMenu } from '@/helpers/helpers';
 import { motion } from 'framer-motion';
+import { useMenuQuery } from '@/hooks/useWrapperQuery';
 
 export const Menu = (): JSX.Element => {
-    const { menu, setMenu, firstCategory } = useContext(AppContext);
+    const { setMenu, firstCategory } = useContext(AppContext);
 
     const router = useRouter();
 
+    const {data: menuHook} = useMenuQuery(firstCategory);
+   
+    if (!menuHook) {
+        return <></>;
+    }
+    
     const variants = {
         visible: {
             marginBottom: 20,
@@ -38,7 +45,7 @@ export const Menu = (): JSX.Element => {
     };
 
     const openSecondLevel = (secondCategory: string) => {
-        setMenu && setMenu(menu.map(m => {
+        setMenu && setMenu(menuHook.map(m => {
             if (m._id.secondCategory == secondCategory) {
                 m.isOpened = !m.isOpened;
             } else if (m._id.secondCategory !== secondCategory) {
@@ -78,7 +85,7 @@ export const Menu = (): JSX.Element => {
     const buildSecondLevel = (menuItem: FirstLevelMenuItem) => {
         return (
             <div className={styles.secondBlock}>
-                {menu.map(m => {
+                {menuHook.map(m => {
                     if (m.pages.map(p => p.alias).includes(router.asPath.split('/')[2])) {
                         m.isOpened = true;
                     }

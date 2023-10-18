@@ -11,23 +11,32 @@ import { TopPageComponent } from "@/page-components";
 import { API } from "@/helpers/api";
 import Head from "next/head";
 import { Error404 } from '../404';
+import { usePageQuery, useProductQuery } from "@/hooks/useWrapperQuery";
+import { useRouter } from "next/router";
 
-function TopPage({ firstCategory, page, products }: TopPageProps): JSX.Element {
-    if (!page || !products) {
-      return <Error404 />;
-    }
-
-    return <>
-      <Head>
-        {page && page.metaTitle && <title>{page.metaTitle}</title>}
-        {page && page.metaDescription && <meta name="desccription" content={page.metaDescription} />}
-      </Head>
-      <TopPageComponent 
-        firstCategory={firstCategory}
-        page={page}
-        products={products}
-      />
-    </>;
+function TopPage({ firstCategory, page }: TopPageProps): JSX.Element {
+  const router = useRouter();
+  const pageHook = usePageQuery(router.query.alias as string);
+  const productsHook = useProductQuery(pageHook.data?.category || '');
+  console.log(pageHook);
+  if (pageHook.isError || productsHook.isError) {
+    return <Error404 />;
+  } else if (pageHook.isLoading || productsHook.isLoading) {
+    return <div>Загрузка</div>;
+  } else {
+    
+  return <>
+    <Head>
+      <title>{page.metaTitle}</title>
+      <meta name="desccription" content={page.metaDescription} />
+    </Head>
+    <TopPageComponent 
+      firstCategory={firstCategory}
+      page={pageHook.data!}
+      products={productsHook.data!}
+    />
+  </>;
+}
 }
 
 export default withLayout(TopPage);
